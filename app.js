@@ -1,6 +1,11 @@
 //importar modulo express
 const express = require('express');
 
+// Importar modulo fileupload
+
+const fileupload = require('express-fileupload');
+
+
 //importar modulo express-handlebars
 const {engine} = require('express-handlebars')
 
@@ -9,6 +14,10 @@ const mysql = require('mysql2');
 
 //app
 const app = express();
+
+// habilitando o upload de arquivo
+
+app.use(fileupload());
 
 //Adicionar bootstrap
 app.use('/bootstrap', express.static('./node_modules/bootstrap/dist'));
@@ -50,7 +59,9 @@ app.get('/', function(req, res){
 //rota de cadastro
 
 app.post('/cadastrar', function(req, res){
-console.log(req.body);
+    console.log(req.body);  
+    console.log(req.files.imagem.name);
+    req.files.imagem.mv(__dirname+'/imagens/'+req.files.imagem.name);
     res.end();
 
 });
